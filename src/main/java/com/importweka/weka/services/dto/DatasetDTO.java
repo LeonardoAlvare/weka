@@ -6,11 +6,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DatasetDTO {
-    private String userId_x;
-    private String projectId;
+    private double userId_x;
+    private double projectId;
     private String requiredExperience;
-    private double proposalsReceived;
-    private double popularidadCreator;
+    private String proposalsReceived;
+    private String popularidadCreator;
     private Boolean isFreelance;
     private String category;
     private double salary;
