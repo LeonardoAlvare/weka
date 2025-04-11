@@ -1,0 +1,10 @@
+@RELATION clean_dataset
+
+@ATTRIBUTE status_x {aceptado,rechazado}
+@ATTRIBUTE requiredExperience {junior,semi-senior,senior}
+@ATTRIBUTE proposalsReceived {alto,bajo,medio}
+@ATTRIBUTE popularidadCreator {alto,bajo,medio}
+@ATTRIBUTE category {backend,frontend,mobile,nube,web}
+@ATTRIBUTE academicTraining {backend,frontend,mobile,nube,web}
+
+@DATA
