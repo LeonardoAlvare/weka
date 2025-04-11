@@ -3,7 +3,6 @@ package com.importweka.weka.services;
 import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
@@ -25,8 +24,8 @@ public class DatasetService {
 
     @PostConstruct
     public void init() throws Exception {
-        InputStream modelStream = getClass().getClassLoader().getResourceAsStream("dataset.model");
-        InputStream arffStream = getClass().getClassLoader().getResourceAsStream("dataset_status_listo_weka.csv.arff");
+        InputStream modelStream = getClass().getClassLoader().getResourceAsStream("dataset_final.model");
+        InputStream arffStream = getClass().getClassLoader().getResourceAsStream("dataset_final.arff");
 
         if (modelStream == null || arffStream == null) {
             throw new Exception("No se pudo cargar el modelo o la estructura ARFF");
@@ -34,22 +33,19 @@ public class DatasetService {
 
         model = (Classifier) weka.core.SerializationHelper.read(modelStream);
         dataStructure = new Instances(new java.io.BufferedReader(new java.io.InputStreamReader(arffStream)));
-        dataStructure.setClassIndex(dataStructure.numAttributes() - 1);
+        // dataStructure.setClassIndex(dataStructure.numAttributes() - 1);
+        dataStructure.setClassIndex(0);
     }
 
     public DatasetResponseDTO prediccion(DatasetDTO input) throws Exception {
         Instance instance = new DenseInstance(dataStructure.numAttributes());
         instance.setDataset(dataStructure);
 
-        instance.setValue(dataStructure.attribute("userId_x"), input.getUserId_x());
-        instance.setValue(dataStructure.attribute("projectId"), input.getProjectId());
         instance.setValue(dataStructure.attribute("requiredExperience"), input.getRequiredExperience());
         instance.setValue(dataStructure.attribute("proposalsReceived"), input.getProposalsReceived());
         instance.setValue(dataStructure.attribute("popularidadCreator"), input.getPopularidadCreator());
-        instance.setValue(dataStructure.attribute("isFreelance"), capitalizeBoolean(input.getIsFreelance().toString()));
         instance.setValue(dataStructure.attribute("category"), input.getCategory());
-        instance.setValue(dataStructure.attribute("salary"), input.getSalary());
-        instance.setValue(dataStructure.attribute("timeLimit"), input.getTimeLimit());
+        instance.setValue(dataStructure.attribute("academicTraining"), input.getAcademicTraining());
 
         double[] distribution = model.distributionForInstance(instance);
         Attribute classAttribute = dataStructure.classAttribute();
@@ -70,13 +66,5 @@ public class DatasetService {
         }
 
         return new DatasetResponseDTO(clasePredicha, probabilidades);
-    }
-
-    private String capitalizeBoolean(String value) throws Exception {
-        if (Objects.equals(value.toLowerCase(), "true"))
-            return "True";
-        if (Objects.equals(value.toLowerCase(), "false"))
-            return "False";
-        throw new Exception("Valor inválido para booleano: " + value);
     }
 }
