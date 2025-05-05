@@ -1,0 +1,15 @@
+@relation freelancer_dataset_diverso
+
+@attribute Edad numeric
+@attribute YearsExperience numeric
+@attribute EducationLevel {Profesional,Tecnólogo,Técnico,Bachiller}
+@attribute Languages {Ingles,'Español e Ingles',Español}
+@attribute WorkAvailability {'Tiempo completo','Medio tiempo'}
+@attribute category {Web,Mobile,Fullstack,Backend}
+@attribute DeveloperLevel {semi,junior,senior}
+@attribute PaymentProposal numeric
+@attribute EstimatedTime numeric
+@attribute categoryProject {Web,Mobile,Fullstack,Backend}
+@attribute Status {aceptado,rechazado}
+
+@data
